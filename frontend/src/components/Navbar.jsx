@@ -1,8 +1,17 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
+import { logoutUser } from "../redux/slices/userSlice"
 
 const Navbar = () => {
   const user = useSelector(state => state.user.data)
+  const dispatch = useDispatch()
+  const handleLogout = async() => {
+     try{
+        dispatch(logoutUser())
+     }catch(error){ 
+      console.log(error)
+     }
+  }
   return (
     <nav className="navbar navbar-expand-lg bg-dark  sticky-top">
       <div className="container-fluid">
@@ -38,7 +47,7 @@ const Navbar = () => {
           <div className="d-flex gap-2">
 
             {
-              user ? <button className="btn btn-danger">Logout</button> : <>
+              user ? <button className="btn btn-danger" onClick={handleLogout}>Logout</button> : <>
               <Link to={"/login"} className="btn btn-success">
                 Login
               </Link>

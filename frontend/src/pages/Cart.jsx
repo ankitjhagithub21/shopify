@@ -6,10 +6,11 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
+  const apiUrl = `${import.meta.env.VITE_SERVER_URL}`
   useEffect(() => {
     const getCart = async () => {
       try {
-        const res = await fetch(`/api/cart`, {
+        const res = await fetch(`${apiUrl}/api/cart`, {
           credentials: "include",
         });
         const data = await res.json();
@@ -27,7 +28,7 @@ const Cart = () => {
   // Update cart item quantity
   const handleUpdateCartItem = async (productId, quantity) => {
     try {
-      const res = await fetch(`/api/cart/update`, {
+      const res = await fetch(`${apiUrl}/api/cart/update`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +50,7 @@ const Cart = () => {
   // Remove item from cart
   const handleRemoveItem = async (productId) => {
     try {
-      const res = await fetch(`/api/cart/remove`, {
+      const res = await fetch(`${apiUrl}/api/cart/remove`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

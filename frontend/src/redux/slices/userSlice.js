@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 
+const apiUrl = `${import.meta.env.VITE_SERVER_URL}/api/auth`
+
 export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
-  const res = await fetch(`/api/auth/user`, {
+  const res = await fetch(`${apiUrl}/user`, {
     credentials: "include",
   });
   const data = await res.json();
@@ -12,7 +14,7 @@ export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
 export const registerUser = createAsyncThunk(
   "user/registerUser",
   async (userData) => {
-    const res = await fetch(`/api/auth/register`, {
+    const res = await fetch(`${apiUrl}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -33,7 +35,7 @@ export const registerUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (userData) => {
-    const res = await fetch(`/api/auth/login`, {
+    const res = await fetch(`${apiUrl}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,6 +51,17 @@ export const loginUser = createAsyncThunk(
     }
     return data;
   }
+);
+
+export const logoutUser = createAsyncThunk(
+  "user/logoutUser",
+  async () => {
+    await fetch(`${apiUrl}/logout`, {
+      credentials: "include",
+    });
+  }
+   
+   
 );
 
 export const userSlice = createSlice({
@@ -85,6 +98,10 @@ export const userSlice = createSlice({
       if (action.payload.success) {
         state.data = action.payload.data;
       }
+    });
+
+    builder.addCase(logoutUser.fulfilled, (state) => {
+       state.data = null;
     });
   },
 });

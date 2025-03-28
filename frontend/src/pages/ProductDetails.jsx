@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import toast from "react-hot-toast"
+import { useSelector } from "react-redux";
 
 const ProductDetails = () => {
     const {id} = useParams();
@@ -8,12 +9,13 @@ const ProductDetails = () => {
     const [loading,setLoading] = useState(true)
     const navigate = useNavigate();
 
+    const user = useSelector((state)=>state.user.data)
     useEffect(()=>{
 
         const fetchProduct = async() => {
             setLoading(true)
             try{
-                const res = await fetch(`/api/products/${id}`);
+                const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/products/${id}`);
                 const data = await res.json();
                 if(res.ok){
                     setProduct(data)
@@ -29,8 +31,11 @@ const ProductDetails = () => {
     },[id])
 
     const handleAddToCart = async(productId) => {
+        if(!user){
+            return toast.error("You are not logged in.")
+        }
         try{
-            const res = await fetch(`/api/cart/add`,{
+            const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/cart/add`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"

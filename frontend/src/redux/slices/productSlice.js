@@ -1,14 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+const apiUrl = `${import.meta.env.VITE_SERVER_URL}/api/products`
 // Fetch products asynchronously
 export const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
-  const res = await fetch(`/api/products`);
+  const res = await fetch(apiUrl);
   const data = await res.json();
   return data;
 });
 
 export const addProduct = createAsyncThunk("products/addProduct", async (productData) => {
-  const res = await fetch(`/api/products`, {
+  const res = await fetch(apiUrl, {
     method: "POST",
     headers:{
       "Content-Type":"application/json"
@@ -24,7 +25,7 @@ export const addProduct = createAsyncThunk("products/addProduct", async (product
 
 // Delete a product asynchronously
 export const deleteProduct = createAsyncThunk("products/deleteProduct", async (productId) => {
-  await fetch(`/api/products/${productId}`, {
+  await fetch(`${apiUrl}/${productId}`, {
     method: "DELETE",
   });
   return productId; 
