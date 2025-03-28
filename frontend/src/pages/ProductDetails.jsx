@@ -40,6 +40,7 @@ const ProductDetails = () => {
                 headers:{
                     "Content-Type":"application/json"
                 },
+                credentials:'include',
                 body:JSON.stringify({productId,quantity:1})
             })
             const data = await res.json();

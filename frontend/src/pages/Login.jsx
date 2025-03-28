@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
-import { loginUser } from '../redux/slices/userSlice'
+import { setUser } from '../redux/slices/userSlice'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 
 
 const Login = () => {
@@ -10,12 +11,30 @@ const Login = () => {
     e.preventDefault();
 
     const formData = new FormData(e.target)
-
     const formValues = Object.fromEntries(formData.entries());
     setLoading(true)
-    dispatch(loginUser(formValues))
-    setLoading(false)
-
+    try {
+      const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(formValues),
+      });
+      const resData = await res.json();
+      if (resData.success) {
+        dispatch(setUser(resData.data))
+        toast.success(resData.message);
+      } else {
+        toast.error(resData.message);
+      }
+    } catch (error) {
+      toast.error(error.message)
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
 
   }
 
@@ -52,10 +71,13 @@ const Login = () => {
 
         </div>
 
-        <button disabled={loading} type="submit" className="btn btn-primary">
+        <button disabled={loading} type="submit" className="btn btn-lg btn-primary">
           {
-            loading ? <div class="spinner-border" role="status">
+            loading ? <div className='d-flex align-items-center gap-2'>
+            <div class="spinner-border" role="status">
               <span class="visually-hidden">Loading...</span>
+            </div>
+            Please wait
             </div> : 'Submit'
           }
         </button>

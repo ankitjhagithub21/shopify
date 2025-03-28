@@ -1,14 +1,21 @@
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { logoutUser } from "../redux/slices/userSlice"
+import { setUser } from "../redux/slices/userSlice"
+import toast from "react-hot-toast"
+
 
 const Navbar = () => {
   const user = useSelector(state => state.user.data)
   const dispatch = useDispatch()
   const handleLogout = async() => {
      try{
-        dispatch(logoutUser())
+        await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auth/logout`,{
+          credentials:'include'
+        })
+        dispatch(setUser(null))
+        toast.success("Logout successfull.")
      }catch(error){ 
+      
       console.log(error)
      }
   }
