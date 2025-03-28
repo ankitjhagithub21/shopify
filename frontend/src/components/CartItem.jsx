@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import {FaTrash} from "react-icons/fa"
 const CartItem = ({ item, handleUpdateCartItem, handleRemoveItem }) => {
   const [quantity, setQuantity] = useState(item.quantity);
 
@@ -42,7 +42,7 @@ const CartItem = ({ item, handleUpdateCartItem, handleRemoveItem }) => {
           className="btn btn-sm btn-danger"
           onClick={() => handleRemoveItem(item.product._id)}
         >
-          Remove From Cart
+          <FaTrash/>
         </button>
       </td>
     </tr>
