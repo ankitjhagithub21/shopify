@@ -20,7 +20,7 @@ const Navbar = () => {
      }
   }
   return (
-    <nav className="navbar navbar-expand-lg bg-dark  sticky-top">
+    <nav className="navbar navbar-expand-lg bg-primary  sticky-top">
       <div className="container-fluid">
         <Link className="navbar-brand text-white" to="/">
           Shopify
@@ -55,10 +55,10 @@ const Navbar = () => {
 
             {
               user ? <button className="btn btn-danger" onClick={handleLogout}>Logout</button> : <>
-              <Link to={"/login"} className="btn btn-success">
+              <Link to={"/login"} className="btn btn-warning">
                 Login
               </Link>
-              <Link to="/register" className="btn btn-outline-success">
+              <Link to="/register" className="btn btn-warning">
                 Signup
               </Link>
             </>
