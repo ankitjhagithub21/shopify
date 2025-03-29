@@ -20,6 +20,7 @@ const UserRoute = lazy(()=>import("./routes/UserRoute"));
 const Checkout = lazy(()=>import("./pages/Checkout")); 
 const Verify = lazy(()=>import("./pages/Verify")) ;
 import "./App.css"
+const Orders = lazy(()=>import("./admin/Orders"))
 const MyOrders = lazy(()=>import("./pages/MyOrders"));
 
 const App = () => {
@@ -67,6 +68,7 @@ const App = () => {
           <Route index element={<Dashboard />} />
           <Route path="create-product" element={<CreateProduct />} />
           <Route path="products" element={<AdminProducts />} />
+          <Route path="orders" element={<Orders />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -7,6 +7,7 @@ const AdminLayout = () => {
         <Link to={"/admin"}>Dashboard</Link>
         <Link to={"/admin/create-product"}>Create Product</Link>
         <Link to={"/admin/products"}>All Products</Link>
+        <Link to={"/admin/orders"}>All Orders</Link>
         </nav>
       <Outlet /> 
     </div>

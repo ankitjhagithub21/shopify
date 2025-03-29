@@ -1,8 +1,11 @@
+import dotenv from "dotenv"
+dotenv.config()
 import Cart from "../models/cart.model.js";
 import Order from "../models/order.model.js";
 import Product from "../models/product.model.js";
 import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 
 export const createOrder = async (req, res) => {
   try {
@@ -96,3 +99,13 @@ export const userOrders = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+export const getAllOrders = async(req,res) => {
+   try{
+
+    const orders = await Order.find({})
+    res.json(orders);
+   }catch(error){
+    res.status(400).json({success:false,message:error.message})
+   }
+}
