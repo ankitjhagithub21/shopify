@@ -1,5 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
 import Cart from "../models/cart.model.js";
 import Order from "../models/order.model.js";
 import Product from "../models/product.model.js";
