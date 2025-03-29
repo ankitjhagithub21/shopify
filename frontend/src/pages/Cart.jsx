@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CartItem from "../components/CartItem";
 import EmptyCart from "../components/EmptyCart";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -97,7 +98,10 @@ const Cart = () => {
           ))}
         </tbody>
       </table>
-      <button className="btn btn-primary btn-lg">Total Price: ₹{totalPrice}</button>
+     <div>
+     <button className="btn btn-primary mx-2">Total Price: ₹{totalPrice}</button>
+     <Link to={"/checkout"} className="btn btn-success">Checkout</Link>
+     </div>
     </div>
   );
 };

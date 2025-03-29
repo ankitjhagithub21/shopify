@@ -2,6 +2,7 @@
 import toast from "react-hot-toast"
 import { useDispatch, useSelector } from "react-redux"
 import { deleteProduct } from "../redux/slices/productSlice";
+import { FaTrash } from "react-icons/fa";
 
 
 const AdminProducts = () => {
@@ -22,7 +23,8 @@ const AdminProducts = () => {
 
   return (
     <div className="container p-5 mx-auto">
-      <table className="table">
+     <div className="table-responsive">
+     <table className="table">
         <thead>
           <tr>
 
@@ -43,7 +45,9 @@ const AdminProducts = () => {
                 <td>{product.name}</td>
                 <td>₹ {product.price}</td>
                 <td>
-                  <button className="btn btn-sm btn-danger" onClick={() => handleDelete(product._id)}>Delete</button>
+                  <button className="btn btn-sm btn-danger" onClick={() => handleDelete(product._id)}>
+                    <FaTrash/>
+                  </button>
                 </td>
               </tr>
             })
@@ -51,6 +55,7 @@ const AdminProducts = () => {
 
         </tbody>
       </table>
+     </div>
     </div>
   )
 }

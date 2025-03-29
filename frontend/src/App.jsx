@@ -16,7 +16,11 @@ const Cart = lazy(()=>import("./pages/Cart"));
 const UserLayout = lazy(()=>import("./layouts/UserLayout"));
 const AdminLayout = lazy(()=>import("./layouts/AdminLayout"));
 const ProductDetails = lazy(()=>import("./pages/ProductDetails"));
+const UserRoute = lazy(()=>import("./routes/UserRoute"));
+const Checkout = lazy(()=>import("./pages/Checkout")); 
+const Verify = lazy(()=>import("./pages/Verify")) ;
 import "./App.css"
+const MyOrders = lazy(()=>import("./pages/MyOrders"));
 
 const App = () => {
   const dispatch = useDispatch()
@@ -30,10 +34,24 @@ const App = () => {
     <Toaster/>
       <Routes>
         {/* User Routes */}
-        <Route path="/" element={<UserLayout />}>
+        <Route path="/" element={
+          
+            <UserLayout />
+        }>
           <Route index element={<Home />} />
-          <Route path="cart" element={<Cart />} />
+          <Route path="cart" element={<UserRoute>
+            <Cart />
+          </UserRoute>} />
           <Route path="product/:id" element={<ProductDetails />} />
+          <Route path="checkout" element={<UserRoute>
+            <Checkout />
+          </UserRoute>} />
+          <Route path="myorders" element={<UserRoute>
+            <MyOrders />
+          </UserRoute>} />
+          <Route path="verify" element={<UserRoute>
+            <Verify />
+          </UserRoute>} />
           <Route path="login" element={<PublicRoute>
             <Login />
           </PublicRoute>} />

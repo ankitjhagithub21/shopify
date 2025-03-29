@@ -48,6 +48,7 @@ const Navbar = () => {
               </a>
               <ul className="dropdown-menu">
                 <li><Link className="dropdown-item" to="/cart">Cart</Link></li>
+                <li><Link className="dropdown-item" to="/myorders">orders</Link></li>
                 <li><button className="dropdown-item" to="#" onClick={handleLogout}>Logout</button></li>
 
               </ul>

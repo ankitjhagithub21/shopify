@@ -3,10 +3,8 @@ dotenv.config();
 import Cart from "../models/cart.model.js";
 import Order from "../models/order.model.js";
 import Product from "../models/product.model.js";
-import Stripe from 'stripe';
+import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-
 
 export const createOrder = async (req, res) => {
   try {
@@ -45,12 +43,19 @@ export const createOrder = async (req, res) => {
     await Cart.findOneAndUpdate({ user: userId }, { items: [] });
 
     const line_items = items.map((item) => ({
-      price: item.price,
+      price_data: {
+        currency: "inr",
+        product_data: {
+          name: item.product.name,
+          images: [item.product.image],
+        },
+        unit_amount: item.price * 100,
+      },
       quantity: item.quantity,
-      
     }));
 
     const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
       line_items: line_items,
       mode: "payment",
       success_url: `${process.env.ORIGIN}/verify?success=true&orderId=${newOrder._id}`,
@@ -62,7 +67,34 @@ export const createOrder = async (req, res) => {
       session_url: session.url,
     });
   } catch (error) {
-    console.error("Error creating order:", error);
+    console.error("Error creating order:", error.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export const verifyOrder = async (req, res) => {
+  try {
+    const { orderId, success } = req.body;
+
+    if (success == "true") {
+      await Order.findByIdAndUpdate(orderId, { paymentStatus: "Paid" });
+      res.status(200).json({ success: true, message: "Paid" });
+    } else {
+      await Order.findByIdAndDelete(orderId);
+      res.status(200).json({ success: false, message: "Not Paid" });
+    }
+  } catch (error) {
+    console.error("Error verifying order:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export const userOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.userId });
+    res.json({ success: true, data: orders });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };

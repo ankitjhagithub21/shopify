@@ -22,14 +22,13 @@ export const logoutUser = createAsyncThunk(
     });
   }
    
-   
 );
 
 export const userSlice = createSlice({
   name: "user",
   initialState: {
     data: null,
-    isLoading:false,
+    isLoading:true,
   },
   reducers: {
     setUser:(state,action)=>{
@@ -41,6 +40,7 @@ export const userSlice = createSlice({
     builder.addCase(fetchUser.fulfilled, (state, action) => {
       if(action.payload.success){
         state.data = action.payload.data;
+        state.isLoading = false;
       }else{
         state.data=null
       }
